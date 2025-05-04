@@ -1,3 +1,12 @@
+#many features were added:
+ability to upload photo, documents and show them, store them. many checks on salary , dob, startdate and end date , so the entering of dates is more logical. ability to delete employee and all related photos and files also will be deleted. ability to edit employee or show employee when we edit the timesheet. adding filters and sort to the timesheets. many other things...
+
+####
+
+
+
+
+
 # Full Stack Web Developer role technical challenge
 
 ## Statement
