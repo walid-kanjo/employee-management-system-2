@@ -1,6 +1,7 @@
 import { useLoaderData } from 'react-router';
 import { useState } from 'react';
 import { getDB } from '~/db/getDB';
+import { Form } from 'react-router';
 
 export async function loader() {
   const db = await getDB();
@@ -119,6 +120,28 @@ export default function EmployeesPage() {
                   >
                     Edit
                   </a>
+                  {/* DELETE */}
+                  <Form
+                    method="post"
+                    action={`/employees/delete/${employee.id}`}
+                    onSubmit={(e) => {
+                      if (
+                        !confirm(
+                          `Are you sure you want to delete ${employee.full_name}?  This cannot be undone.`
+                        )
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                    className="inline-block"
+                  >
+                    <button
+                      type="submit"
+                      className="px-3 py-1 ml-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm transition"
+                    >
+                      Delete
+                    </button>
+                  </Form>
                 </td>
               </tr>
             ))}
@@ -157,7 +180,7 @@ export default function EmployeesPage() {
         </button>
       </div>
 
-      {/* Actions */}
+      {/* Navigations */}
       <div className="flex mt-8 space-x-4">
         <a
           href="/employees/new"

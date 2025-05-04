@@ -8,13 +8,16 @@ The app should be simple to **create** on your part and to **use** on the end us
 It consists of **4 views**, there are 13 requirements and 12 bonus features.
 
 ### 1- Single Employee View (/employees/:id & /employees/new)
+
 **Create/Update Form**
 
 A page displaying a form used to create and update a single employee, it allows the user to:
+
 - Create a new employee
 - Update an employee's information
 
 Specs
+
 - Requirements:
 
   1- personal fields you want to include (e.g. name, email, phone number, date of birth...),
@@ -25,7 +28,7 @@ Specs
 
   4- Navigation buttons to go to the list of employees,
 
-- *Bonus*
+- _Bonus_
 
   1- Employee Photo (to be stored in the app's file system)
 
@@ -38,12 +41,15 @@ Specs
 Have at most 10 fields, a simple design using grid or flexbox is enough.
 
 ### 2- Multiple Employees View (/employees)
+
 **List View**
 A page displaying a list of employees, it allows the user to:
+
 - View the list of employees
 - Go to the single employee view of an employee
 
 Specs
+
 - Requirements
 
   5- Have a link for each row leading to the single employee view of the employee,
@@ -52,7 +58,7 @@ Specs
 
   7- Navigation buttons to go to the new employee page and the list of timesheets,
 
-- *Bonus*
+- _Bonus_
 
   5- Search bar
 
@@ -63,12 +69,15 @@ Specs
   8- Pagination
 
 ### 3- Single Timesheet View (/timesheets/:id & /timesheets/new)
+
 **Create/Update Form**
 A page displaying a form used to create and update a single timesheet, it allows the user to:
+
 - Create a new timesheet
 - Update a timesheet's information
 
 Specs
+
 - Requirements
 
   8- Start and end time fields
@@ -77,17 +86,19 @@ Specs
 
   10- Navigation buttons to go to the employee, to the list of employees or to the list of timesheets
 
-- *Bonus*
+- _Bonus_
 
   9- Validation: start time is before end time, end time is after start time.
 
   10- Summary: a text input specifying the work done during the timesheet period
 
 ### 4- Multiple Timesheets View (/timesheets)
+
 **List View**
 A page displaying the created timesheets
 
 Specs
+
 - Requirements
 
   11- Calendar view using [`schedule-x.dev`](https://schedule-x.dev) component, see this [`example`](https://schedule-x.dev/docs/frameworks/react#example) on how to implement it
@@ -96,14 +107,16 @@ Specs
 
   13- A toggle to switch between calendar and table views
 
-- *Bonus*
+- _Bonus_
 
   11- Search bar
 
   12- Filtering by employee
 
 ## Tech stack
+
 The stack is already implemented for you:
+
 - Frontend: React.js with React router,
 - Backend: React router `loader` and `action` functions, see implemented scaffold and [doc](https://reactrouter.com/),
 - Database: SQLite.
@@ -125,14 +138,16 @@ The stack is already implemented for you:
 7- Run the development server with `npm run dev`
 
 8- Modify these 6 files to satisfy as many of the 13 requirements and the 12 bonuses as you want. Some scaffolding has been done for you, the single employee and timesheet views are not implemented, it is advisable to extract the forms from the new resource pages as components and to reuse them in the single employee and timesheet views.
-  - [`app/routes/employees._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees._index/route.tsx)
-  - [`app/routes/employees.$employeeId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.$employeeId._index/route.tsx)
-  - [`app/routes/employees.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.new/route.tsx)
-  - [`app/routes/timesheets._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets._index/route.tsx)
-  - [`app/routes/timesheets.$timesheetId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.$timesheetId._index/route.tsx)
-  - [`app/routes/timesheets.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.new/route.tsx)
+
+- [`app/routes/employees._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees._index/route.tsx)
+- [`app/routes/employees.$employeeId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.$employeeId._index/route.tsx)
+- [`app/routes/employees.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.new/route.tsx)
+- [`app/routes/timesheets._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets._index/route.tsx)
+- [`app/routes/timesheets.$timesheetId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.$timesheetId._index/route.tsx)
+- [`app/routes/timesheets.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.new/route.tsx)
 
 9- Make sure the app runs with:
+
 ```bash
 npm run setup_db
 npm run seed
@@ -145,6 +160,7 @@ npm run start
 10- Fill in this [google form](https://forms.gle/pJ9x4jVTed4QsWMD6) with your info and repository link and feedback.
 
 ## What is not required
+
 - Styling, but the app should be usable; if you want to style, uncomment the tailwind code in `app.css` to use tailwind or write your own styles there without tailwind or any other library.
 - Authentication, authorization.
 - Tests, but they are always welcome.

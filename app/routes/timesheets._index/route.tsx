@@ -1,5 +1,5 @@
+import React, { useState, useMemo, useEffect } from 'react';
 import { useLoaderData } from 'react-router';
-import { useState, useMemo, useEffect } from 'react';
 import { useCalendarApp, ScheduleXCalendar } from '@schedule-x/react';
 import {
   createViewDay,
@@ -11,7 +11,6 @@ import { createEventsServicePlugin } from '@schedule-x/events-service';
 import '@schedule-x/theme-default/dist/index.css';
 import { getDB } from '~/db/getDB';
 
-// Loader function
 export async function loader() {
   const db = await getDB();
   const timesheetsAndEmployees = await db.all(
@@ -28,6 +27,36 @@ export async function loader() {
 export default function TimesheetsPage() {
   const { timesheetsAndEmployees } = useLoaderData<typeof loader>();
   const [isCalendarView, setIsCalendarView] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [employeeFilter, setEmployeeFilter] = useState('');
+
+  const employeeList = useMemo(
+    () =>
+      Array.from(
+        new Set(timesheetsAndEmployees.map((ts: any) => ts.full_name))
+      ),
+    [timesheetsAndEmployees]
+  );
+
+  // Filtered timesheets for Table View
+  const filteredTimesheets = useMemo(() => {
+    return timesheetsAndEmployees
+      .filter((ts: any) => {
+        const composite = [
+          ts.full_name,
+          ts.summary,
+          ts.start_time.replace('T', ' '),
+          ts.end_time.replace('T', ' '),
+        ]
+          .join(' ')
+          .toLowerCase();
+        return composite.includes(searchTerm.toLowerCase());
+      })
+      .filter((ts: any) =>
+        employeeFilter ? ts.full_name === employeeFilter : true
+      );
+  }, [timesheetsAndEmployees, searchTerm, employeeFilter]);
 
   // Prepare events
   const events = useMemo(
@@ -53,26 +82,15 @@ export default function TimesheetsPage() {
     events,
     plugins: [eventsService],
   });
-  // calendar?.setTheme('dark');
-  // Set calendar theme based on system preference
   useEffect(() => {
     if (!calendar) return;
-
-    // Set initial theme
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     calendar.setTheme(isDark ? 'dark' : 'light');
-
-    // Handle theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleThemeChange = (e: MediaQueryListEvent) => {
+    const handler = (e: MediaQueryListEvent) =>
       calendar.setTheme(e.matches ? 'dark' : 'light');
-    };
-
-    mediaQuery.addEventListener('change', handleThemeChange);
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleThemeChange);
-    };
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
   }, [calendar]);
 
   return (
@@ -81,7 +99,7 @@ export default function TimesheetsPage() {
         <h1 className="text-3xl font-bold mb-6 text-center">Timesheets</h1>
 
         <div className="flex items-center justify-between mb-6 w-full max-w-7xl mx-auto">
-          <div className="flex  space-x-4">
+          <div className="flex space-x-4">
             <button
               onClick={() => setIsCalendarView(false)}
               className={`px-4 py-2 rounded ${
@@ -103,7 +121,35 @@ export default function TimesheetsPage() {
               Calendar View
             </button>
           </div>
-          <div className="flex  space-x-4">
+
+          {/* Search and filters in Table View */}
+          {!isCalendarView && (
+            <div className="flex space-x-4">
+              <input
+                type="text"
+                placeholder="Search timesheets…"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+              <select
+                value={employeeFilter}
+                onChange={(e) => setEmployeeFilter(e.target.value)}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              >
+                <option value="" className="font-bold">
+                  All Employees
+                </option>
+                {employeeList.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className="flex space-x-4">
             <a
               href="/timesheets/new"
               className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition"
@@ -127,8 +173,8 @@ export default function TimesheetsPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-auto">
-            {timesheetsAndEmployees.map((ts: any) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-auto content-start">
+            {filteredTimesheets.map((ts: any) => (
               <div
                 key={ts.id}
                 className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700"

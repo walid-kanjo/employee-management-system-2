@@ -28,7 +28,7 @@ CREATE TABLE employees (
     start_date DATE NOT NULL,
     end_date DATE,
     photo_path TEXT,
-    documents_path TEXT
+    documents_path TEXT     
 );
 
 

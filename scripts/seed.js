@@ -25,7 +25,12 @@ const employees = [
     salary: 80000,
     start_date: '2021-01-15',
     photo_path: 'photos/john_doe.jpg',
-    documents_path: 'documents/john_doe_resume.pdf',
+    documents_path: JSON.stringify([
+      {
+        storedPath: 'documents/john_doe_resume.pdf',
+        originalName: 'john_doe_resume.pdf',
+      },
+    ]),
   },
   {
     full_name: 'Jane Smith',
@@ -37,7 +42,12 @@ const employees = [
     salary: 95000,
     start_date: '2020-03-01',
     photo_path: 'photos/jane_smith.jpg',
-    documents_path: 'documents/jane_smith_resume.pdf',
+    documents_path: JSON.stringify([
+      {
+        storedPath: 'documents/jane_smith_resume.pdf',
+        originalName: 'jane_smith_resume.pdf',
+      },
+    ]),
   },
   {
     full_name: 'Alice Johnson',
@@ -49,7 +59,12 @@ const employees = [
     salary: 65000,
     start_date: '2019-09-05',
     photo_path: 'photos/alice_johnson.jpg',
-    documents_path: 'documents/alice_johnson_resume.pdf',
+    documents_path: JSON.stringify([
+      {
+        storedPath: 'documents/alice_johnson_resume.pdf',
+        originalName: 'alice_johnson_resume.pdf',
+      },
+    ]),
   },
 ];
 
